@@ -10,3 +10,10 @@
 pyvenv.cfg
 venv
 pip-selfcheck.json
+
+# ignore downloaded TSL.xml
+TSL.xml
+
+# ignore jks, p12, creared by export, the rest of produced files are too much heterogeneous
+*.jks
+*.p12

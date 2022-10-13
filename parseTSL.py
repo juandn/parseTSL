@@ -7,8 +7,6 @@ import lxml.etree
 import unicodedata
 import re
 
-ns = {'d': 'http://uri.etsi.org/02231/v2#', 'xml' : 'http://www.w3.org/XML/1998/namespace', "re": "http://exslt.org/regular-expressions"}
-root = lxml.etree.parse('TSL.xml')
 
 ###
 ### usefull functions
@@ -100,7 +98,11 @@ def export(format_type, param):
   else:
     print(f'Format type no supported.')
 
-
+def download():
+  try:
+    subprocess.call(['wget', 'https://sedediatid.mineco.gob.es/Prestadores/TSL/TSL.xml'])
+  except subprocess.CalledProcessError as e:
+    print(e.output)
 
 ###
 ### print functions
@@ -293,6 +295,7 @@ def print_help(argv):
     print('\texport keystore <filename>\t# nombre del archivo.')
   else:
     print('Supported commands:')
+    print('\tdownload')
     print('\tlist [services|providers]')
     print('\tshow')
     print('\tsearch [services|providers] <search string>')
@@ -316,6 +319,17 @@ elif len(sys.argv) == 4:
   subcommand = sys.argv[2]
   subcommand_param = sys.argv[3]
 
+print(os.path.exists('TSL.xml'))
+
+if not os.path.exists('TSL.xml') and command != 'download':
+  print('No existe el archivo TSL. Usa el comando download para descargarlo.')
+  print_help('')
+  exit()
+
+if command != 'download' and command != '':
+  ns = {'d': 'http://uri.etsi.org/02231/v2#', 'xml' : 'http://www.w3.org/XML/1998/namespace', "re": "http://exslt.org/regular-expressions"}
+  root = lxml.etree.parse('TSL.xml')
+
 if command == "list":
   if subcommand == 'services':
     list_services()
@@ -338,6 +352,8 @@ elif command == 'tree':
   print_tree()
 elif command == 'export':
   export(subcommand, subcommand_param)
+elif command == 'download':
+  download()
 else:
   print('Acción no soportada.')
   print_help('')
