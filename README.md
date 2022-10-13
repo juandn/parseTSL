@@ -19,6 +19,8 @@ pip install -r requirements.txt
 ## Use
 - Empty commands run help
 - Supported commands:
+  - download
+    - Download fixed spanish TSL.
   - list [services|providers] 
   - show
   - search [services|providers] <search string>
