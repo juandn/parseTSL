@@ -17,6 +17,7 @@ pip install -r requirements.txt
 ```
 
 ## Use
+- Empty commands run help
 - Supported commands:
   - list [services|providers] 
   - show
